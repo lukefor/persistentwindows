@@ -33,7 +33,8 @@
     <OutputPath>bin\Deploy\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ManagedWinapi">
+    <Reference Include="ManagedWinapi, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ManagedWinapi.0.3\ManagedWinapi.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
@@ -41,6 +42,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,6 +68,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NativeHelpers\NativeHelpers.vcxproj">
+      <Project>{938e65d0-ec9c-4181-87ca-a43d4747610d}</Project>
+      <Name>NativeHelpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

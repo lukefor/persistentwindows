@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -15,6 +16,8 @@ namespace Ninjacrab.PersistentWindows.Common
 {
     public class PersistentWindowProcessor : IDisposable
     {
+        private const double NATIVE_DPI = 96.0;
+
         // read and update this from a config file eventually
         private int AppsMovedThreshold = 4;
         private DesktopDisplayMetrics lastMetrics = null;
@@ -241,6 +244,7 @@ namespace Ninjacrab.PersistentWindows.Common
                             window.Visible,
                             window.Title
                             ));
+                        Log.Info(changeLog.Last());
                     }
                 }
 
@@ -284,8 +288,15 @@ namespace Ninjacrab.PersistentWindows.Common
             if (windowPlacement.ShowCmd == ShowWindowCommands.Normal)
             {
                 User32.GetWindowRect(window.HWnd, ref windowPlacement.NormalPosition);
+                
+                // Undo windows scale factor in window size or we end up inflating the size of windows
+                double dpi = (double)User32.GetDpiForWindow(window.HWnd);
+                Rectangle pos = windowPlacement.NormalPosition.ToRectangle();
+                pos.Width = (int)((double)pos.Width / dpi * NATIVE_DPI);
+                pos.Height = (int)((double)pos.Height / dpi * NATIVE_DPI);
+                windowPlacement.NormalPosition = (RECT)pos;
             }
-
+                       
             applicationDisplayMetric = new ApplicationDisplayMetrics
             {
                 HWnd = window.HWnd,
@@ -306,7 +317,7 @@ namespace Ninjacrab.PersistentWindows.Common
             return updated;
         }
 
-        private void BeginRestoreApplicationsOnCurrentDisplays()
+        public void BeginRestoreApplicationsOnCurrentDisplays()
         {
             var thread = new Thread(() => 
             {

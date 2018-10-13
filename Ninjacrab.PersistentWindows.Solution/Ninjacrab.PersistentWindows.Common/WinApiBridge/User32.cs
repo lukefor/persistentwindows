@@ -27,6 +27,17 @@ namespace Ninjacrab.PersistentWindows.Common.WinApiBridge
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WindowPlacement lpwndpl);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool PhysicalToLogicalPointForPerMonitorDPI(IntPtr hWnd, [In] ref POINT lpPoint);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool LogicalToPhysicalPointForPerMonitorDPI(IntPtr hWnd, [In] ref POINT lpPoint);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern uint GetDpiForWindow(IntPtr hWnd);
+        
         #region Hooks
         [DllImport("user32.dll")]
         public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);        

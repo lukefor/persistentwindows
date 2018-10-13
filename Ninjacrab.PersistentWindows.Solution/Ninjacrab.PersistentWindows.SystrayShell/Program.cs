@@ -12,11 +12,12 @@ namespace Ninjacrab.PersistentWindows.SystrayShell
         [STAThread]
         static void Main()
         {
-            new PersistentWindowProcessor().Start();
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            new SystrayForm();
+
+            var persistentWindowProcessor = new PersistentWindowProcessor();
+            persistentWindowProcessor.Start();
+            new SystrayForm(persistentWindowProcessor);
             Application.Run();
         }
     }
