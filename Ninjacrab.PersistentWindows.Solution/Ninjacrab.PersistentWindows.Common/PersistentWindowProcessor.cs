@@ -244,7 +244,9 @@ namespace Ninjacrab.PersistentWindows.Common
                             window.Visible,
                             window.Title
                             ));
+                    #if DEBUG
                         Log.Info(changeLog.Last());
+                    #endif
                     }
                 }
 
@@ -300,8 +302,14 @@ namespace Ninjacrab.PersistentWindows.Common
             applicationDisplayMetric = new ApplicationDisplayMetrics
             {
                 HWnd = window.HWnd,
+                // Fetching these is super CPU intensive so do it on debug builds only
+#if DEBUG
                 ApplicationName = window.Process.ProcessName,
                 ProcessId = window.Process.Id,
+#else
+                ApplicationName = "...",
+                ProcessId = 0,
+#endif
                 WindowPlacement = windowPlacement
             };
 
