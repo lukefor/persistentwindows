@@ -365,7 +365,7 @@ namespace Ninjacrab.PersistentWindows.Common
                 Log.Info("Restoring applications for {0}", displayKey);
                 foreach (var window in CaptureWindowsOfInterest())
                 {
-                    string applicationKey = string.Format("{0}-{1}", window.HWnd.ToInt64(), window.Process.ProcessName);
+                    string applicationKey = string.Format("{0}", window.HWnd.ToInt64());
                     if (monitorApplications[displayKey].ContainsKey(applicationKey))
                     {
                         // looks like the window is still here for us to restore

@@ -12,7 +12,7 @@ namespace Ninjacrab.PersistentWindows.Common.Models
 
         public string Key
         {
-            get { return string.Format("{0}-{1}", HWnd.ToInt64(), ApplicationName); }
+            get { return string.Format("{0}", HWnd.ToInt64()); }
         }
 
         public bool EqualPlacement(ApplicationDisplayMetrics other)
